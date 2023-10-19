@@ -77,33 +77,32 @@ test0:
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
 	
-	ldr	x0,=strEquals1
+	ldr	x0,=strEquals1	//x0 hold address
 	bl	putstring	//prints string
 
-	ldr	x0,=szStr1
-	ldr	x1,=szStr3
-	bl	String_equals
+	ldr	x0,=szStr1	//x0 hold address
+	ldr	x1,=szStr3	//x0 hold address
+	bl	String_equals	//compare strings
 	
-
-	cmp	x0,#1
-	b.eq printTrue
+	cmp	x0,#1		//compare
+	b.eq printTrue		//jump if equal 1
 	
-	cmp	x0,#0
-	b.eq printFalse
+	cmp	x0,#0		//compare
+	b.eq printFalse		//jump if equal 0
 
 printTrue:
 	ldr	x0,=szTrue	//x0 points to
 	bl	putstring	//prints string
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
-	b test1
+	b test1			//next test
 	
 printFalse:
 	ldr	x0,=szFalse	//x0 points to
 	bl	putstring	//prints string
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
-	b	test2
+	b	test1
 	
 //************************************* Test for String_equals(s1,s1)
 test1:
