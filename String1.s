@@ -10,74 +10,66 @@
 //
 //*************************************************************************
 
-
+.data
+str1:	.skip	50
+str2:	.skip	50
 
 	.global String_equals
 	.text
-
+	
 String_equals:
+	STR	LR, [SP,#-16]!		// PUSH LR
 
-	STR	LR, [SP,#-16]!		//PUSH LR
+	// x0 holds string1
+	// x1 holds string2
 
-	//x0 holds string1
-	//x1 holds string2
+	ldr	x2, =str1
+	STR	x0, [x2]
 
-	ldr	x2,=str1
-	STR	x0,[x2]
+	ldr	x3, =str2
+	STR	x1, [x3]
 
-	ldr	x3,=str2
-	STR	x1,[x3]
-
-	ldr	x0,=str1
+	ldr	x0, =str1
 	bl	String_length
-	mov	x4,x0
+	mov	x4, x0
 
-
-	ldr	x0,=str2
+	ldr	x0, =str2
 	bl	String_length
-	mov	x5,x0
+	mov	x5, x0
 
-	cmp	x4,x5
+	cmp	x4, x5
 	b.ne	false1
 
-//continue
-	ldr	x0,=str1
-	ldr	x1,=str2
-	
-	ldrb	w3,[x0]
-	add	x0,x0,#1
-
-	ldrb	w4,[x1]
-	add	x1,x1,#1
+	// Continue
+	ldr	x0, =str1
+	ldr	x1, =str2
 
 compareLoop1:
-	cmp	w3,#0
+	ldrb	w3, [x0], #1
+	ldrb	w4, [x1], #1
+
+	cmp	w3, #0
 	b.eq	true1
 
-	ldrb	w3,[x0]
-	add	x0,x0,#1
-
-	ldrb	w4,[x1]
-	add	x1,x1,#1
-
-	cmp	w3,w4
+	cmp	w3, w4
 	b.ne	false1
-	
-	b	compareLoop1	
-	
+
+	b	compareLoop1
+
 true1:
-	mov	x0,#1
-	b	exit1	
+	mov	x0, #1
+	b	exit1
 
 false1:
-	mov	x0,#0
+	mov	x0, #0
 	b	exit1
-	
+
 exit1:
-	LDR LR,[SP],#16		//POP LR
+	LDR LR, [SP], #16	// POP LR
 	ret
 
-
+	.end
+	
 
 //************************************************************************
 //Program: String_equalsIgnoreCase
