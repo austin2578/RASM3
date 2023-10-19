@@ -573,7 +573,7 @@ exit1:
 
 	.data
 str1:	.skip	21
-strPrefix:	.skip	21
+strSuffix:	.skip	21
 
 
 	.global String_endsWith
@@ -584,46 +584,47 @@ String_endsWith:
 	STR	LR, [SP,#-16]!		//PUSH LR
 
 	//x0 holds string1
-	//x1 holds stringPrefix
+	//x1 holds stringSuffix
 
 
-	ldr	x3,=str1
-	STR	x0,[x3]
+	ldr	x2,=str1
+	STR	x0,[x2]
 
-	ldr	x4,=strPrefix
-	STR	x1,[x4]
+	ldr	x3,=strSuffix
+	STR	x1,[x3]
 
 	
-	ldr	x0,=strPrefix
+	ldr	x0,=str1
 	bl	String_length
-	mov	x6,x0
+	mov	x2,x0
+	
+	ldr	x0,=strSuffix
+	bl	String_length
+	mov	x3,x0
+	
 
 //continue
 	ldr	x0,=str1
-	ldr	x1,=strPrefix
+	ldr	x1,=strSuffix
+	add	x0,x0,x2
+	add	x1,x1,x3
 	
-	ldrb	w3,[x0]
-	add	x0,x0,#1
-
-	ldrb	w4,[x1]
-	add	x1,x1,#1
-
 compareLoop1:
-	cmp	x6,#0
+	cmp	x3,#0
 	b.eq	true1
-
-	ldrb	w3,[x0]
-	add	x0,x0,#1
-
-	ldrb	w4,[x1]
-	add	x1,x1,#1
-
-	cmp	w3,w4
+	
+	ldrb	w4,[x0]
+	ldrb	w5,[x1]
+	
+	cmp	w4,w5
 	b.ne	false1
 	
-	sub	x6,x6,#1
+	sub	x0,x0,#1
+	sub	x1,x1,#1
+	sub	x3,x3,#1
 	
-	b	compareLoop1	
+	b compareLoop1
+	
 	
 true1:
 	mov	x0,#1
