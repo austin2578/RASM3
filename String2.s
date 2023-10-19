@@ -1,12 +1,13 @@
     .global String2
 String2:
 
+.global String_indexOf_1
 String_indexOf_1:
     mov x2, #0   // Initialize the index to 0
     mov w3, #0   // Initialize the character count to 0
 
 indexOf_char_loop_1:
-    ldrb w1, [x0, x2]  // Load the byte at the current index into w1
+    ldrb w1, [x0]  // Load the byte at the current index into w1
     cmp w1, #0         // Compare the character with 0 (null terminator)
     b.eq not_found_1     // If it's a null terminator, the character is not found
 
@@ -14,6 +15,7 @@ indexOf_char_loop_1:
     b.eq found_1         // If they are equal, we found the character
 
     add x2, x2, #1     // Increment the index
+    add x0, x0, #1
     b indexOf_char_loop_1 // Continue looping to check the next character
 
 found_1:
@@ -24,67 +26,86 @@ not_found_1:
     mov x0, #-1   // Character not found, return -1
     ret
 
+.global String_indexOf_2
 String_indexOf_2:
-    cmp x2, #0
-    b.lt not_found   // If fromIndex is negative, return -1
-
-    mov x1, x2  // Set x1 to the specified fromIndex
-
+    mov x2, x1   // Initialize the index to 0
+    mov w3, #0   // Initialize the character count to 0
+    add x0, x0, x2
 indexOf_char_loop_2:
-    ldrb w1, [x0, x1]  // Load the byte at the current index into w1
+    ldrb w1, [x0]  // Load the byte at the current index into w1
     cmp w1, #0         // Compare the character with 0 (null terminator)
-    b.eq not_found_1     // If it's a null terminator, the character is not found
+    b.eq not_found_2     // If it's a null terminator, the character is not found
 
     cmp w1, w8         // Compare w1 (current character) with the specified character (w8)
-    b.eq found_2       // If they are equal, we found the character
+    b.eq found_2         // If they are equal, we found the character
 
-    add x1, x1, #1     // Increment the index
+    add x2, x2, #1     // Increment the index
+    add x0, x0, #1
     b indexOf_char_loop_2 // Continue looping to check the next character
 
 found_2:
-    mov x0, x1   // Move the index to x0 for return
+    mov x0, x2   // Move the index to x0 for return
     ret
 
+not_found_2:
+    mov x0, #-1   // Character not found, return -1
+    ret
+
+.global String_indexOf_3
 String_indexOf_3:
-    ldr x4, [x0, #0]   // Load the length of the string
-    ldr x6, [x1, #0]   // Load the length of the substring
+    mov x2, #0         // Initialize the index to 0
 
-    cmp x6, x4
-    b.ge not_found_3  // If the substring is longer, it cannot be found in the string
+    cmp x0, #0         // Check if string1 is empty
+    b.eq not_found_3   // If it is, the substring is not found
 
-    mov x2, x4         // Initialize x2 with the string length
-    sub x2, x2, #1     // Adjust x2 to the last character index
+    cmp x1, #0         // Check if the substring is empty
+    b.eq found_3       // If it is, it's found at the beginning
 
-indexOf_substring_loop_3:
-    ldrb w4, [x0, x2]  // Load the byte at the current index in the string into w4
-    cmp w4, #0         // Compare the character with 0 (null terminator)
-    b.eq not_found_3   // If it's a null terminator, the substring is not found
+indexOf_substr_loop_3:
+    ldrb w1, [x0]     // Load the byte at the current index into w1
+    ldrb w4, [x1]     // Load the byte from the substring into w4
 
-    ldrb w5, [x1, #0]  // Load the byte at the current index in the substring into w5
+    cmp w1, #0         // Compare the character with 0 (null terminator)
+    b.eq not_found_3  // If it's a null terminator in the string, the substring is not found
 
-    cmp w4, w5         // Compare the characters in the string and the substring
-    b.ne continue_loop_3 // If they are not equal, continue the loop
+    cmp w1, w4         // Compare w1 (current character) with the first character of the substring
+    b.ne next_char_3   // If they are not equal, continue to the next character in the string
 
-    add x6, x1, #1     // Increment the substring index
+    // Check if the rest of the substring matches
+    mov x3, x0         // Store the current index of string1
+    mov x2, x0         // Initialize the index to the current index
+indexOf_char_loop_3:
+    ldrb w1, [x0]     // Load the byte at the current index into w1
+    ldrb w4, [x1]     // Load the byte from the substring into w4
 
-    ldrb w5, [x6, #0]  // Load the next byte of the substring
-    cmp w5, #0         // Compare it to the null terminator
-    b.ne continue_loop_3 // If it's not the end of the substring, continue checking
+    cmp w4, #0         // Compare the character from the substring with 0 (null terminator)
+    b.eq found_3       // If it's null terminator, the entire substring is found
+
+    cmp w1, w4         // Compare w1 (current character) with the corresponding character from the substring
+    b.ne next_char_3   // If they are not equal, move to the next character in the string
+
+    add x1, x1, #1     // Move to the next character in the substring
+    add x0, x0, #1     // Move to the next character in the string
+    b indexOf_char_loop_3 // Continue checking the next character in the substring
+
+next_char_3:
+    // Reset index for the substring
+    mov x1, x3
+    add x2, x2, #1     // Increment the index for string1
+    add x0, x2, x1    // Move to the next character in the string1
+    b indexOf_substr_loop_3
 
 found_3:
     mov x0, x2   // Move the index to x0 for return
     ret
 
-continue_loop_3:
-    sub x2, x2, #1     // Decrement the index
-    b indexOf_substring_loop_3
-
 not_found_3:
-    mov x0, -1   // Substring not found, return -1
+    mov x0, #-1   // Substring not found, return -1
     ret
-
+.global String_lastIndexOf_1
 String_lastIndexOf_1:
-    mov x2, #0   // Initialize the index to 0
+    mov x2, x1   // Initialize the index to the length of the string
+    sub x2, x2, #1 // Adjust the index to point to the last character
     mov w3, #0   // Initialize the character count to 0
 
 lastIndexOf_char_loop_1:
@@ -106,36 +127,34 @@ index_not_found_1:
     mov x0, -1   // Character not found, return -1
     ret
 
+.global String_lastIndexOf_2
 String_lastIndexOf_2:
-    cmp x2, #0
-    b.lt index_not_found_2   // If fromIndex is negative, return -1
-    ldr x4, [x0, #0]   // Load the length of the string
-    cmp x2, x4
-    b.ge index_not_found_2  // If fromIndex is greater than or equal to the string length, return -1
-
-    mov x3, x4         // Initialize x3 with the string length
-    sub x3, x3, #1     // Adjust x3 to the last character index
-    sub x3, x3, x2     // Set x3 to the starting index from the end
+    mov x2, x1   // Initialize the index to the specified starting index
+    mov w3, #0   // Initialize the character count to 0
 
 lastIndexOf_char_loop_2:
-    ldrb w1, [x0, x3]  // Load the byte at the current index into w1
+    sub x2, x2, #1     // Decrement the index to move to the previous character
+    ldrb w1, [x0, x2]  // Load the byte at the current index into w1
     cmp w1, #0         // Compare the character with 0 (null terminator)
-    b.eq not_found_2   // If it's a null terminator, the character is not found
+    b.eq index_not_found_2   // If it's a null terminator, the character is not found
 
     cmp w1, w8         // Compare w1 (current character) with the specified character (w8)
-    b.ne continue_loop_2 // If they are not equal, continue the loop
+    b.eq index_found_2       // If they are equal, we found the character
 
-    mov x0, x3   // Move the last occurrence index to x0 for return
-    ret
+    b.ne lastIndexOf_char_loop_2 // Continue looping to check the next character
 
-continue_loop_2:
+index_continue_loop_2:
     sub x3, x3, #1     // Decrement the index
     b lastIndexOf_char_loop_2
 
+index_found_2:
+    mov x0, x2   // Move the index to x0 for return
+    ret
 index_not_found_2:
     mov x0, -1   // Character not found, return -1
     ret
 
+.global String_lastIndexOf_3
 String_lastIndexOf_3:
     ldr x4, [x0, #0]   // Load the length of the string
     ldr x5, [x1, #0]   // Load the length of the substring
@@ -160,7 +179,7 @@ lastIndexOf_substring_loop_3:
 
     ldrb w1, [x5, #0]  // Load the next byte of the substring
     cmp w1, #0         // Compare it to the null terminator
-    b.ne continue_loop_3 // If it's not the end of the substring, continue checking
+    b.ne index_continue_loop_3 // If it's not the end of the substring, continue checking
 
 index_found_3:
     mov x0, x2   // Move the index to x0 for return
@@ -174,64 +193,51 @@ index_not_found_3:
     mov x0, -1   // Substring not found, return -1
     ret
 
+.global String_concat
+
 String_concat:
-    // Preserve the link register
-    str lr, [sp, #-8]!
+    // Input:
+    // x0: Pointer to the first string (string1)
+    // x1: Pointer to the second string (string2)
 
-    // x0 contains the length of the first string (int)
-    // x2 contains the address of the first string
-    // x3 contains the address of the second string
-    // Step 3: Call malloc to allocate memory
-    bl malloc
-    mov x8, x3
+    // Calculate the length of the first string (string1)
+    mov x2, #0           // Initialize the index to 0
+calc_str1_length:
+    ldrb w3, [x0, x2]   // Load the byte at the current index into w3
+    cmp w3, #0           // Compare the character with 0 (null terminator)
+    b.eq concat_str      // If it's a null terminator, proceed to concatenate
+    add x2, x2, #1       // Increment the index
+    b calc_str1_length   // Continue looping to calculate the length
 
-    // x0 now contains the address of the allocated memory
+concat_str:
+    // Calculate the length of the second string (string2)
+    mov x2, #0           // Reset index for string1
+    mov x3, #0           // Initialize the index for string2
+calc_str2_length:
+    ldrb w4, [x1, x3]   // Load the byte at the current index of string2 into w4
+    cmp w4, #0           // Compare the character with 0 (null terminator)
+    b.eq copy_str2      // If it's a null terminator, proceed to copy string2
+    add x3, x3, #1       // Increment the index for string2
+    b calc_str2_length   // Continue looping to calculate the length
 
-    // Store the address in ptrString
-    ldr x1, =ptrString
-    str x0, [x1]
+copy_str2:
+    // Copy the characters from string2 to the end of string1
+    mov x3, #0           // Reset index for string2
+copy_loop:
+    ldrb w4, [x1, x3]   // Load the byte at the current index of string2 into w4
+    strb w4, [x0, x2]   // Store the byte in string1 at the current index
+    cmp w4, #0           // Compare the character with 0 (null terminator)
+    b.eq null_terminate // If it's a null terminator, terminate the concatenated string
+    add x2, x2, #1       // Increment the index for string1
+    add x3, x3, #1       // Increment the index for string2
+    b copy_loop          // Continue copying
 
-    // Copy szX to the allocated memory
-    bl copy_string
-    mov x2, x8
-    bl copy_string
-
-
-    // Restore the link register
-    ldr lr, [sp], #8
-
+null_terminate:
+    mov w6, #0
+    strb w6, [x0, x2]     // Null-terminate the concatenated string
     ret
-
-copy_string:
-    // Preserve the link register
-    str lr, [sp, #-8]!
-
-    // Load a character from the source into x3
-    ldrb w3, [x2]
-    add x2, x2, #1
-
-    // Check if the character is null (end of the string)
-    cbz w3, end_copy // If it's null, exit the loop
-
-    // Store the character in the allocated memory
-    strb w3, [x0]
-    add x0, x0, #1
-
-    // Repeat the loop
-    b copy_string
-
-end_copy:
-    // Restore the link register
-    ldr lr, [sp], #8
-    ret
-
+.global String_replace
 String_replace:
-    // Preserve the link register
-    str lr, [sp, #-8]!
-
-    // x0 contains the address of the string
-    // x1 contains the character to be replaced
-    // x2 contains the character to replace with
 
 replace_loop:
     ldrb w3, [x0]  // Load a character from the string into w3
@@ -251,19 +257,14 @@ continue_replace:
     b replace_loop  // Repeat the loop
 
 end_replace:
-    // Restore the link register
-    ldr lr, [sp], #8
     ret
-
+    
+.global String_toLowerCase
 String_toLowerCase:
-    // Preserve the link register
-    str lr, [sp, #-8]!
-
-    // x0 contains the address of the string
 
 toLowerCase_loop:
     ldrb w3, [x0]  // Load a character from the string into w3
-    cmp w3, #0     // Compare the character with null terminator
+    cmp w3, #0     // Compare the character with the null terminator
     b.eq end_toLowerCase // If it's the end of the string, exit the loop
 
     // Check if the character is an uppercase letter (ASCII range A-Z)
@@ -273,7 +274,7 @@ toLowerCase_loop:
     bgt continue_toLowerCase
 
     // Convert to lowercase (add the ASCII difference)
-    add w3, w3, 'a' - 'A'
+    sub w3, w3, #'A' - 'a'  // Convert to lowercase
     strb w3, [x0]  // Store the lowercase character back in the string
 
 continue_toLowerCase:
@@ -281,16 +282,9 @@ continue_toLowerCase:
     b toLowerCase_loop  // Repeat the loop
 
 end_toLowerCase:
-    // Restore the link register
-    ldr lr, [sp], #8
-
     ret
-
+.global String_toUpperCase
 String_toUpperCase:
-    // Preserve the link register
-    str lr, [sp, #-8]!
-
-    // x0 contains the address of the string
 
 toUpperCase_loop:
     ldrb w3, [x0]  // Load a character from the string into w3
@@ -312,6 +306,6 @@ continue_toUpperCase:
     b toUpperCase_loop  // Repeat the loop
 
 end_toUpperCase:
-    // Restore the link register
-    ldr lr, [sp], #8
     ret
+.data
+ptrString: .quad 0

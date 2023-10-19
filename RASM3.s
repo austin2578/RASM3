@@ -59,57 +59,6 @@ test0:
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
 	
-	ldr	x0,=strEquals1
-	bl	putstring
-
-	ldr	x0,=s1
-	ldr	x1,=s3
-	bl	String_equals
-	
-	cmp	x0,#1
-	b.eq printTrue
-	
-	cmp	x0,#0
-	b.eq printFalse
-    
-printTrue:
-	ldr	x0,=szTrue
-	bl	putstring
-		ldr	x0,=chLF	//x0 points to chLF
-	bl	putch		//prints carriage return
-	b continue1
-	
-printFalse:
-	ldr	x0,=szFalse
-	bl	putstring
-	ldr	x0,=chLF	//x0 points to chLF
-	bl	putch		//prints carriage return
-	b	continue1
-//Prompt user
-	ldr	x0,=szEnter	//x0 points to szEnter
-	bl	putstring	//prints string
-	ldr	x0,=s1		//x0 points to szX
-	mov	x1,MAX_BYTES	//x1 gets 21 bytes
-	bl	getstring	//get user input	
-
-	ldr	x0,=szEnter	//x0 points to szEnter
-	bl	putstring	//prints string
-	ldr	x0,=s2	//x0 points to szStr2
-	mov	x1,MAX_BYTES	//x1 gets 21 bytes
-	bl	getstring	//get user input
-	
-
-	ldr	x0,=szEnter	//x0 points to szEnter
-	bl	putstring	//prints string
-	ldr	x0,=s3	//x0 points to szStr3
-	mov	x1,MAX_BYTES	//x1 gets 21 bytes
-	bl	getstring	//get user input
-
-// ************************************* Test for String_equals(s1,s3)
-test0:
-	ldr	x0,=chLF	//x0 points to chLF
-	bl	putch		//prints carriage return
-	
 	ldr	x0,=strEquals1	//x0 hold address
 	bl	putstring	//prints string
 
@@ -241,13 +190,13 @@ test4:
 	bl	putch		//prints carriage return
 	ldr	x0,=strCopy	//x0 points to
 	bl	putstring	//prints string
-	ldr	x0,=strS1	//x0 points to
+	ldr	x0,=strS1Copy	//x0 points to
 	bl	putstring	//prints string
 	ldr	x0,=s1	//x0 points to
 	bl	putstring	//prints string
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
-	ldr	x0,=strS4	//x0 points to
+	ldr	x0,=strS4Copy	//x0 points to
 	bl	putstring	//prints string
 	ldr	x0,=s1	//x0 points to
 	bl	String_copy
@@ -413,13 +362,15 @@ printFalse12:
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
 	b	continue1
-	
+
 continue1:
     ldr x0, =szIndex1Prompt  // Load the address of the input prompt into x1
     bl putstring  // Display the input prompt
     mov x1, MAX_BYTES   //Move max byte size into x1
     ldr x0, =index  // Load the address of the iLimitNum variable into x0
     bl getstring  // Call the getstring function to get user input
+    ldr x0, =szString_index_1
+    bl putstring
     ldr x0, =index  // Load the address of the iLimitNum variable into x0
     ldrb w8, [x0]
     ldr x0, =s2
@@ -441,6 +392,8 @@ continue1:
     mov x1, MAX_BYTES   //Move max byte size into x1
     ldr x0, =iLimitNum  // Load the address of the iLimitNum variable into x0
     bl getstring  // Call the getstring function to get user input
+    ldr x0, =szString_index_2
+    bl putstring
     ldr x0, =iLimitNum  // Load the address of the iLimitNum variable into x0
     bl ascint64   // Convert x0 to a string
     ldr x1, =starting_index
@@ -463,6 +416,8 @@ continue1:
     mov x1, MAX_BYTES   //Move max byte size into x1
     ldr x0, =subString  // Load the address of the iLimitNum variable into x0
     bl getstring  // Call the getstring function to get user input
+    ldr x0, =szString_index_3
+    bl putstring
     ldr x0, =s2
     ldr x1, =subString
     //bl String_indexOf_3
@@ -478,6 +433,8 @@ continue1:
     mov x1, MAX_BYTES   //Move max byte size into x1
     ldr x0, =index  // Load the address of the iLimitNum variable into x0
     bl getstring  // Call the getstring function to get user input
+    ldr x0, =szString_lastIndex_1
+    bl putstring
     ldr x0, =s2
     bl String_length
     mov x1, x0
@@ -502,6 +459,8 @@ continue1:
     mov x1, MAX_BYTES   //Move max byte size into x1
     ldr x0, =iLimitNum  // Load the address of the iLimitNum variable into x0
     bl getstring  // Call the getstring function to get user input
+    ldr x0, =szString_lastIndex_2
+    bl putstring
     ldr x0, =iLimitNum  // Load the address of the iLimitNum variable into x0
     bl ascint64   // Convert x0 to a string
     ldr x1, =starting_index
@@ -519,6 +478,23 @@ continue1:
     ldr x0, =newline
     bl putch
 
+    ldr x0, =szIndex3Prompt  // Load the address of the input prompt into x1
+    bl putstring  // Display the input prompt
+    mov x1, MAX_BYTES   //Move max byte size into x1
+    ldr x0, =subString  // Load the address of the iLimitNum variable into x0
+    bl getstring  // Call the getstring function to get user input
+    ldr x0, =szString_lastIndex_3
+    bl putstring
+    ldr x0, =s2
+    ldr x1, =subString
+    //bl String_indexOf_3
+    //ldr x1, =iLimitNum  // Load the address of the iLimitNum variable into x0
+    //bl int64asc   // Convert x0 to a string
+    //ldr x0, =iLimitNum
+    //bl putstring
+    ldr x0, =newline
+    bl putch
+
     ldr x0, =szReplace1  // Load the address of the input prompt into x1
     bl putstring  // Display the input prompt
     mov x1, MAX_BYTES   //Move max byte size into x1
@@ -529,6 +505,8 @@ continue1:
     mov x1, MAX_BYTES   //Move max byte size into x1
     ldr x0, =index  // Load the address of the iLimitNum variable into x0
     bl getstring  // Call the getstring function to get user input
+    ldr x0, =szString_replace
+    bl putstring
     ldr x0, =s1
     ldr x1, =starting_index
     ldr w1, [x1]
@@ -542,12 +520,16 @@ continue1:
 
     ldr x0, =s1
     bl String_toLowerCase
+    ldr x0, =szString_toLowerCase
+    bl putstring
     ldr x0, =s1
     bl putstring
     ldr x0, =newline
     bl putch
     ldr x0, =s1
     bl String_toUpperCase
+    ldr x0, =szString_toUpperCase
+    bl putstring
     ldr x0, =s1
     bl putstring
     ldr x0, =newline
@@ -557,6 +539,12 @@ continue1:
     ldr x0, =s1
     ldr x1, =s2
     bl String_concat
+    ldr x0, =szString_concat1
+    bl putstring
+    ldr x0, =newline
+    bl putch
+    ldr x0, =szString_concat2
+    bl putstring
     ldr x0, =s1
     bl putstring
     ldr x0, =newline
@@ -588,6 +576,17 @@ szIndex2Prompt: .asciz "Please enter character to find in s2: "
 szIndex2Prompt2: .asciz "Please enter starting index: "
 szLastIndex2Prompt: .asciz "Please enter character to find last occurrence in s2: "
 szIndex3Prompt: .asciz "Please enter substring of s2: "
+szString_index_1: .asciz "String_indexOf_1(s2,'g') = "
+szString_index_2: .asciz "String_indexOf_2(s2,'g',9) = "
+szString_index_3: .asciz "String_indexOf_3(s2,'eggs') = "
+szString_lastIndex_1: .asciz "String_lastIndexOf_1(s2,'g') = "
+szString_lastIndex_2: .asciz "String_lastIndexOf_2(s2,'g',9) = "
+szString_lastIndex_3: .asciz "String_lastIndexOf_3(s2,'eggs') = "
+szString_replace: .asciz "String_replace(s1,'a','o') = "
+szString_toLowerCase: .asciz "String_toLowerCase(s1) = "
+szString_toUpperCase: .asciz "String_toUpperCase(s1) = "
+szString_concat1: .asciz "String_concat(s1,' ') = "
+szString_concat2: .asciz "String_concat(s1,s2) = "
 szReplace1: .asciz "Please enter character to replace: "
 szReplace2: .asciz "Please enter replacement character: "
 strEquals1:	.asciz	"String_equals(s1,s3) = "
@@ -600,9 +599,9 @@ strS4Copy:		.asciz	"s4 = "
 strSub1:	.asciz	"String_substring_1(s3,4,14) = "
 strSub2:	.asciz	"String_substring_2(s3,7) = "
 strChar:	.asciz	"String_charAt(s2,4) = "
-strStarts1:	.asciz	"String_startsWith_1(s1,11,\"hat\") = "
-strStarts2:	.asciz	"String_startsWith_2(s1,\"Cat\") = "
-strEnds:	.asciz	"String_endsWith(s1,\"in the hat.\" = "
+strStarts1:	.asciz	"String_startsWith_1(s1,11,'hat') = "
+strStarts2:	.asciz	"String_startsWith_1(s1,'Cat') = "
+strEnds:	.asciz	"String_endsWith(s1,'in the hat.') = "
 stringSpace: .asciz " "
 szPrefix:	.asciz	"in the hat."
 szPrefix2:	.asciz	"the hat."

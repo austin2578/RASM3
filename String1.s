@@ -1,4 +1,4 @@
-// ************************************************************************
+//************************************************************************
 //Program: String_equals
 //
 //Purpose: his method makes an exact comparison of individual characters in two strings. 
@@ -8,7 +8,7 @@
 // ‘e’ is NOT the same as ‘E’. Otherwise “true” (1) is returned. 
 //The value is returned in the R0 register
 //
-// *************************************************************************
+//*************************************************************************
 
 	.data
 str1:	.skip	50
@@ -82,7 +82,7 @@ exit1:
 	.end
 
 
-// ************************************************************************
+//************************************************************************
 //Program: String_equalsIgnoreCase
 //
 //Purpose: This method makes a comparison of individual characters in two strings ignoring case.
@@ -91,7 +91,7 @@ exit1:
 //of the two strings is different, the method also returns “false”. Note that ‘e’ is the SAME as 
 //‘E’. The value returned is in the R0 register.
 //		
-// *************************************************************************
+//*************************************************************************
 
 	.data
 str1:	.skip	50
@@ -170,7 +170,7 @@ exit2:
 
 	.end
 
-// ************************************************************************
+//************************************************************************
 //Program: String_copy
 //
 //Purpose: This method accepts a string to copy, allocates dynamically enough storage 
@@ -178,7 +178,7 @@ exit2:
 //of that newly created string. You will need to CALL the alloc method, the UML
 //for which is below. I have written this method: you only have to PROTOtype it and CALL i
 //
-// *************************************************************************
+//*************************************************************************
 
 	.data
 str1:	.skip	50
@@ -232,13 +232,13 @@ exit:
 	.end
 
 
-// ************************************************************************
+//************************************************************************
 //Program: String_substring_1
 //
 //Purpose: This method creates a new string consisting of characters from 
 //a substring of the passed string starting with beginIndex and ending 
 //with endIndex
-// ************************************************************************
+//************************************************************************
 
 	.data
 str1:	.skip	50
@@ -293,13 +293,13 @@ exit:
 
 	.end
 
-// ************************************************************************
+//************************************************************************
 //Program: String_substring_2
 //
 //Purpose: This method creates a new string consisting of characters from 
 //a substring of the passed string starting with beginIndex and ending 
 //with endIndex
-// ************************************************************************
+//************************************************************************
 
 	.data
 str1:	.skip	50
@@ -354,13 +354,13 @@ exit:
 
 	.end
 
-// ************************************************************************
+//************************************************************************
 //Program: String_charAt
 //
 //Purpose: This method returns the character in the indicated position.
 //If the request is impossible to fulfill, the method returns 0
 //
-// *************************************************************************
+//*************************************************************************
 
 	.data
 str1:	.skip	21
@@ -411,7 +411,7 @@ exit:
 
 	.end
 
-// ************************************************************************
+//************************************************************************
 //Program: String_startsWith_1.s
 //
 //Purpose: It checks whether the substring (starting from the specified offset index)
@@ -419,7 +419,7 @@ exit:
 //prefix “Wash” starting in position 7 would return “true” (1) otherwise, it
 //would return false (0) would have is having the specified prefix or not
 //
-// *************************************************************************
+//*************************************************************************
 
 	.data
 str1:	.skip	21
@@ -491,13 +491,13 @@ exit1:
 
 	.end
 
-// ************************************************************************
+//************************************************************************
 //Program: String_startsWith_2.s
 //
 //Purpose: It tests whether string1 begins with the specified prefix. 
 //If yes then it returns true else false.
 //
-// *************************************************************************
+//*************************************************************************
 
 	.data
 str1:	.skip	21
@@ -563,13 +563,13 @@ exit1:
 
 	.end
 
-// ************************************************************************
+//************************************************************************
 //Program: String_endsWith.s
 //
 //Purpose: Checks whether the string ends with the
 //specified suffix.
 //
-// *************************************************************************
+//*************************************************************************
 
 	.data
 str1:	.skip	21
