@@ -53,22 +53,22 @@ chLF:	.byte	0xa	//carriage return
 	.text
 _start:
 //Prompt user
-	ldr	x0,=szEnter
-	bl	putstring
-	ldr	x0,=szStr1		//x0 points to szX
+	ldr	x0,=szEnter	//x0 points to szEnter
+	bl	putstring	//prints string
+	ldr	x0,=szStr1	//x0 points to szX
 	mov	x1,MAX_BYTES	//x1 gets 21 bytes
 	bl	getstring	//get user input	
 
-	ldr	x0,=szEnter
-	bl	putstring
-	ldr	x0,=szStr2		//x0 points to szX
+	ldr	x0,=szEnter	//x0 points to szEnter
+	bl	putstring	//prints string
+	ldr	x0,=szStr2	//x0 points to szStr2
 	mov	x1,MAX_BYTES	//x1 gets 21 bytes
 	bl	getstring	//get user input
 	
 
-	ldr	x0,=szEnter
-	bl	putstring
-	ldr	x0,=szStr3		//x0 points to szX
+	ldr	x0,=szEnter	//x0 points to szEnter
+	bl	putstring	//prints string
+	ldr	x0,=szStr3	//x0 points to szStr3
 	mov	x1,MAX_BYTES	//x1 gets 21 bytes
 	bl	getstring	//get user input
 
@@ -78,7 +78,7 @@ test0:
 	bl	putch		//prints carriage return
 	
 	ldr	x0,=strEquals1
-	bl	putstring
+	bl	putstring	//prints string
 
 	ldr	x0,=szStr1
 	ldr	x1,=szStr3
@@ -92,15 +92,15 @@ test0:
 	b.eq printFalse
 
 printTrue:
-	ldr	x0,=szTrue
-	bl	putstring
-		ldr	x0,=chLF	//x0 points to chLF
+	ldr	x0,=szTrue	//x0 points to
+	bl	putstring	//prints string
+	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
 	b test1
 	
 printFalse:
-	ldr	x0,=szFalse
-	bl	putstring
+	ldr	x0,=szFalse	//x0 points to
+	bl	putstring	//prints string
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
 	b	test2
@@ -110,14 +110,13 @@ test1:
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
 	
-	ldr	x0,=strEquals2
-	bl	putstring
+	ldr	x0,=strEquals2	//x0 points to
+	bl	putstring	//prints string
 
-	ldr	x0,=szStr1
-	ldr	x1,=szStr1
+	ldr	x0,=szStr1	//x0 points to
+	ldr	x1,=szStr1	//x0 points to
 	bl	String_equals
 	
-
 	cmp	x0,#1
 	b.eq printTrue1
 	
@@ -125,14 +124,14 @@ test1:
 	b.eq printFalse1
 
 printTrue1:
-	ldr	x0,=szTrue
-	bl	putstring
-		ldr	x0,=chLF	//x0 points to chLF
+	ldr	x0,=szTrue	//x0 points to
+	bl	putstring	//prints string
+	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
 	b test2
 	
 printFalse1:
-	ldr	x0,=szFalse
+	ldr	x0,=szFalse	//x0 points to
 	bl	putstring
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
@@ -143,10 +142,10 @@ printFalse1:
 test2:
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
-	ldr	x0,=strEqIgno1
+	ldr	x0,=strEqIgno1	//x0 points to
 	bl	putstring
-	ldr	x0,=szStr1
-	ldr	x1,=szStr3
+	ldr	x0,=szStr1	//x0 points to
+	ldr	x1,=szStr3	//x0 points to
 	bl	String_equalsIgnoreCase
 
 	cmp	x0,#1
@@ -157,7 +156,7 @@ test2:
 
 printTrue2:
 
-	ldr	x0,=szTrue
+	ldr	x0,=szTrue	//x0 points to
 	bl	putstring
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
@@ -165,7 +164,7 @@ printTrue2:
 
 printFalse2:
 
-	ldr	x0,=szFalse
+	ldr	x0,=szFalse	//x0 points to
 	bl	putstring
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
@@ -175,10 +174,10 @@ printFalse2:
 test3:
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
-	ldr	x0,=strEqIgno2
+	ldr	x0,=strEqIgno2	//x0 points to
 	bl	putstring
-	ldr	x0,=szStr1
-	ldr	x1,=szStr2
+	ldr	x0,=szStr1	//x0 points to
+	ldr	x1,=szStr2	//x0 points to
 	bl	String_equalsIgnoreCase
 
 	cmp	x0,#1
@@ -189,7 +188,7 @@ test3:
 
 printTrue3:
 
-	ldr	x0,=szTrue
+	ldr	x0,=szTrue	//x0 points to
 	bl	putstring
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
@@ -197,7 +196,7 @@ printTrue3:
 
 printFalse3:
 
-	ldr	x0,=szFalse
+	ldr	x0,=szFalse	//x0 points to
 	bl	putstring
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
@@ -208,23 +207,23 @@ printFalse3:
 test4:
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
-	ldr	x0,=strCopy
+	ldr	x0,=strCopy	//x0 points to
 	bl	putstring
-	ldr	x0,=strS1
+	ldr	x0,=strS1	//x0 points to
 	bl	putstring
-	ldr	x0,=szStr1
+	ldr	x0,=szStr1	//x0 points to
 	bl	putstring
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
-	ldr	x0,=strS4
+	ldr	x0,=strS4	//x0 points to
 	bl	putstring
-	ldr	x0,=szStr1
+	ldr	x0,=szStr1	//x0 points to
 	bl	String_copy
 	
-	ldr	x1,=szStr4
+	ldr	x1,=szStr4	//x0 points to
 	str x0,[x1]
 	
-	ldr	x0,=szStr4
+	ldr	x0,=szStr4	//x0 points to
 	bl	putstring
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
@@ -233,18 +232,18 @@ test4:
 test7:
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
-	ldr	x0,=strSub1
+	ldr	x0,=strSub1	//x0 points to
 	bl	putstring
 	
-	ldr	x0,=szStr1
-	ldr	x1,=iBegin
-	ldr	x2,=iEnd
+	ldr	x0,=szStr1	//x0 points to
+	ldr	x1,=iBegin	//x0 points to
+	ldr	x2,=iEnd	//x0 points to
 	bl	String_substring_1
 	
-	ldr	x1,=szStr4
+	ldr	x1,=szStr4	//x0 points to
 	str x0,[x1]
 	
-	ldr	x0,=szStr4
+	ldr	x0,=szStr4	//x0 points to
 	bl	putstring
 	
 	ldr	x0,=chLF	//x0 points to chLF
@@ -253,16 +252,16 @@ test7:
 test8:
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
-	ldr	x0,=strSub2
+	ldr	x0,=strSub2	//x0 points to
 	bl	putstring
-	ldr	x0,=szStr1
-	ldr	x1,=iBegin2
+	ldr	x0,=szStr1	//x0 points to
+	ldr	x1,=iBegin2	//x0 points to
 	bl	String_substring_2
 	
-	ldr	x1,=szStr4
+	ldr	x1,=szStr4	//x0 points to
 	str x0,[x1]
 	
-	ldr	x0,=szStr4
+	ldr	x0,=szStr4	//x0 points to
 	bl	putstring
 
 	ldr	x0,=chLF	//x0 points to chLF
@@ -271,17 +270,17 @@ test8:
 test9:
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
-	ldr	x0,=strChar
+	ldr	x0,=strChar	//x0 points to
 	bl	putstring
 	
-	ldr	x0,=szStr1
-	ldr	x1,=iPosition
+	ldr	x0,=szStr1	//x0 points to
+	ldr	x1,=iPosition	//x0 points to
 	bl	String_charAt
 	
-	ldr	x1,=szTemp
+	ldr	x1,=szTemp	//x0 points to
 	bl	int64asc
 	
-	ldr	x0,=szTemp
+	ldr	x0,=szTemp	//x0 points to
 	bl	putstring
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
@@ -290,11 +289,11 @@ test9:
 test10:
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
-	ldr	x0,=strStarts1
+	ldr	x0,=strStarts1	//x0 points to
 	bl	putstring
-	ldr	x0,=szStr1
-	ldr	x1,=szPrefix
-	ldr	x2,=iPosition
+	ldr	x0,=szStr1	//x0 points to
+	ldr	x1,=szPrefix	//x0 points to
+	ldr	x2,=iPosition	//x0 points to
 	bl	String_startsWith_1
 
 	cmp	x0,#0
@@ -305,14 +304,14 @@ test10:
 
 
 printTrue10:
-	ldr	x0,=szTrue
+	ldr	x0,=szTrue	//x0 points to
 	bl	putstring
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
 	b 	test11
 	
 printFalse10:
-	ldr	x0,=szFalse
+	ldr	x0,=szFalse	//x0 points to
 	bl	putstring
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
@@ -323,11 +322,11 @@ printFalse10:
 test11:
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
-	ldr	x0,=strStarts2
+	ldr	x0,=strStarts2	//x0 points to
 	bl	putstring
 	
-	ldr	x0,=szStr1
-	ldr	x1,=szPrefix2
+	ldr	x0,=szStr1	//x0 points to
+	ldr	x1,=szPrefix2	//x0 points to
 
 	bl	String_startsWith_2
 
@@ -339,14 +338,14 @@ test11:
 
 
 printTrue11:
-	ldr	x0,=szTrue
+	ldr	x0,=szTrue	//x0 points to
 	bl	putstring
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
 	b 	test12
 	
 printFalse11:
-	ldr	x0,=szFalse
+	ldr	x0,=szFalse	//x0 points to
 	bl	putstring
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
@@ -356,11 +355,11 @@ printFalse11:
 test12:
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
-	ldr	x0,=strEnds
+	ldr	x0,=strEnds	//x0 points to
 	bl	putstring
 	
-	ldr	x0,=szStr1
-	ldr	x1,=szSuffix
+	ldr	x0,=szStr1	//x0 points to
+	ldr	x1,=szSuffix	//x0 points to
 	bl	String_endsWith
 	
 	cmp	x0,#0
@@ -369,15 +368,15 @@ test12:
 	cmp	x0,#1
 	b.eq	printTrue12
 	
-printTrue12:
-	ldr	x0,=szTrue
+printTrue12:	
+	ldr	x0,=szTrue	//x0 points to
 	bl	putstring
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
 	b 	end
 	
 printFalse12:
-	ldr	x0,=szFalse
+	ldr	x0,=szFalse	//x0 points to
 	bl	putstring
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
