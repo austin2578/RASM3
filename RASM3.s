@@ -186,28 +186,36 @@ printFalse3:
 
 // ************************************* Test for String_copy(s1)
 test4:
-	ldr	x0,=chLF	//x0 points to chLF
-	bl	putch		//prints carriage return
+
 	ldr	x0,=strCopy	//x0 points to
 	bl	putstring	//prints string
 	ldr	x0,=strS1Copy	//x0 points to
 	bl	putstring	//prints string
 	ldr	x0,=s1	//x0 points to
 	bl	putstring	//prints string
-	ldr	x0,=chLF	//x0 points to chLF
-	bl	putch		//prints carriage return
-	ldr	x0,=strS4Copy	//x0 points to
+    ldr x0, =newline
+    bl putch
+    ldr	x0,=strS4Copy	//x0 points to
 	bl	putstring	//prints string
-	ldr	x0,=s1	//x0 points to
-	bl	String_copy
-	
-	ldr	x1,=s4	//x0 points to
-	str	x0,[x1]
-	
-	ldr	x0,=s4	//x0 points to
-	bl	putstring	//prints string
-	ldr	x0,=chLF	//x0 points to chLF
-	bl	putch		//prints carriage return
+    ldr x0, =s1
+    bl String_length
+    bl malloc
+    // Store the address in ptrString
+    ldr x1, =s4
+    str x0, [x1]
+    // Copy szX to the allocated memory
+    ldr x2, =s1
+    bl String_copy
+    // Print the resulting string
+    ldr x0, =s4
+    ldr x0, [x0]
+    bl putstring
+    // Step 4: Free the allocated memory
+    ldr x0, =s4
+    ldr x0, [x0]
+    bl free
+    ldr x0, =newline
+    bl putch
 		
 // ************************************* Test for String_substring_1
 test7:
@@ -253,19 +261,13 @@ test9:
 	bl	putch		//prints carriage return
 	ldr	x0,=strChar	//x0 points to
 	bl	putstring	//prints string
-	
-	ldr	x0,=s1	//x0 points to
-	ldr	x1,=iPosition	//x0 points to
-	bl	String_charAt
-	
-	ldr	x1,=szTemp	//x0 points to
-	bl	int64asc
-	
-	ldr	x0,=szTemp	//x0 points to
-	bl	putstring	//prints string
+    ldr x0, =s2
+    bl String_charAt
+    ldr x1, =stringChar
+    strb w0, [x1]
+    bl putch
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
-
 // ************************************* Test for String_startsWith_1
 test10:
 	ldr	x0,=chLF	//x0 points to chLF
@@ -420,11 +422,11 @@ continue1:
     bl putstring
     ldr x0, =s2
     ldr x1, =subString
-    //bl String_indexOf_3
-    //ldr x1, =iLimitNum  // Load the address of the iLimitNum variable into x0
-    //bl int64asc   // Convert x0 to a string
-    //ldr x0, =iLimitNum
-    //bl putstring
+    bl String_indexOf_3
+    ldr x1, =iLimitNum  // Load the address of the iLimitNum variable into x0
+    bl int64asc   // Convert x0 to a string
+    ldr x0, =iLimitNum
+    bl putstring
     ldr x0, =newline
     bl putch
 
@@ -487,11 +489,7 @@ continue1:
     bl putstring
     ldr x0, =s2
     ldr x1, =subString
-    //bl String_indexOf_3
-    //ldr x1, =iLimitNum  // Load the address of the iLimitNum variable into x0
-    //bl int64asc   // Convert x0 to a string
-    //ldr x0, =iLimitNum
-    //bl putstring
+
     ldr x0, =newline
     bl putch
 
@@ -535,18 +533,34 @@ continue1:
     ldr x0, =newline
     bl putch
 
-
-    ldr x0, =s1
-    ldr x1, =s2
-    bl String_concat
     ldr x0, =szString_concat1
     bl putstring
+    ldr x0, =s2
+    bl String_length
+    bl malloc
+    ldr x1, =ptrString
+    str x0, [x1]
+    ldr x2, =s1
+    bl String_concat
+    //concat spacebar press 
+    mov x3, #' '
+    strb w3, [x0]
+    add x0, x0, #1
+    //concat string2 to string 1
+    ldr x2, =s2
+    bl String_concat
     ldr x0, =newline
     bl putch
     ldr x0, =szString_concat2
     bl putstring
-    ldr x0, =s1
+    // Print the resulting string
+    ldr x0, =ptrString
+    ldr x0, [x0]
     bl putstring
+    // Step 4: Free the allocated memory
+    ldr x0, =ptrString
+    ldr x0, [x0]
+    bl free
     ldr x0, =newline
     bl putch
 
@@ -575,6 +589,7 @@ szLastIndex1Prompt: .asciz "Please enter character to find last index in s2: "
 szIndex2Prompt: .asciz "Please enter character to find in s2: "
 szIndex2Prompt2: .asciz "Please enter starting index: "
 szLastIndex2Prompt: .asciz "Please enter character to find last occurrence in s2: "
+szLastIndex3Prompt: .asciz "String_lastIndexOf_3(s2,'egg') = "
 szIndex3Prompt: .asciz "Please enter substring of s2: "
 szString_index_1: .asciz "String_indexOf_1(s2,'g') = "
 szString_index_2: .asciz "String_indexOf_2(s2,'g',9) = "
@@ -617,4 +632,6 @@ iPosition:	.byte	4
 szTemp:	.skip	21
 newline: .byte 10
 iLimitNum: .quad 0    // The limit for entering numeric strings
+ptrString: .quad 0
+stringChar: .quad 0
 
