@@ -10,9 +10,7 @@
 //
 //*************************************************************************
 
-	.data
-str1:	.skip	50
-str2:	.skip	50
+
 
 	.global String_equals
 	.text
@@ -79,7 +77,6 @@ exit1:
 	LDR LR,[SP],#16		//POP LR
 	ret
 
-	.end
 
 
 //************************************************************************
@@ -93,9 +90,6 @@ exit1:
 //		
 //*************************************************************************
 
-	.data
-str1:	.skip	50
-str2:	.skip	50
 
 	.global String_equalsIgnoreCase
 	.text
@@ -168,7 +162,6 @@ exit2:
 	LDR LR,[SP],#16		//POP LR
 	ret
 
-	.end
 
 //************************************************************************
 //Program: String_copy
@@ -180,9 +173,7 @@ exit2:
 //
 //*************************************************************************
 
-	.data
-str1:	.skip	50
-ptrStr:	.quad	0
+
 
 	.global String_copy
 	.text
@@ -229,7 +220,6 @@ exit:
 	LDR LR,[SP],#16		//POP LR
 	ret
 
-	.end
 
 
 //************************************************************************
@@ -240,9 +230,6 @@ exit:
 //with endIndex
 //************************************************************************
 
-	.data
-str1:	.skip	50
-ptrStr:	.quad	0
 
 	.global String_substring_1
 	.text
@@ -269,29 +256,28 @@ String_substring_1:
 
 	LDR	x2,=str1		//x2 points to str1
 
-copyLoop:
+copyLoop2:
 
 	ldrb	w3, [x2]	//load one byte (character) into w3
 	add	x2, x2, #1	//increment source address by 1
 
 //Check for null terminating character (0)
 	cmp	w3,#0		//Compare w3 to 0
-	b.eq	exit	//jump if w3 is equal to 0
+	b.eq	exit_copy	//jump if w3 is equal to 0
 
 //Store the character into the ptrString allocated memory
 	strb 	w3, [x0]	//store one byte into the address of ptrString
 	add	x0, x0, #1	//increment destination address by 1
-	b copyLoop		//branch to copyLoop
+	b copyLoop2		//branch to copyLoop
 
 
 	
-exit:
+exit_copy:
 	ldr	x0,=ptrStr
 	ldr	x0,[x0]
 	LDR LR,[SP],#16		//POP LR
 	ret
 
-	.end
 
 //************************************************************************
 //Program: String_substring_2
@@ -301,9 +287,7 @@ exit:
 //with endIndex
 //************************************************************************
 
-	.data
-str1:	.skip	50
-ptrStr:	.quad	0
+
 
 	.global String_substring_2
 	.text
@@ -330,29 +314,29 @@ String_substring_2:
 
 	LDR	x2,=str1		//x2 points to str1
 
-copyLoop:
+copyLoop3:
 
 	ldrb	w3, [x2]	//load one byte (character) into w3
 	add	x2, x2, #1	//increment source address by 1
 
 //Check for null terminating character (0)
 	cmp	w3,#0		//Compare w3 to 0
-	b.eq	exit	//jump if w3 is equal to 0
+	b.eq	exit2	//jump if w3 is equal to 0
 
 //Store the character into the ptrString allocated memory
 	strb 	w3, [x0]	//store one byte into the address of ptrString
 	add	x0, x0, #1	//increment destination address by 1
-	b copyLoop		//branch to copyLoop
+	b copyLoop3		//branch to copyLoop
 
 
 	
-exit:
+exit3:
 	ldr	x0,=ptrStr
 	ldr	x0,[x0]
 	LDR LR,[SP],#16		//POP LR
 	ret
 
-	.end
+
 
 //************************************************************************
 //Program: String_charAt
@@ -362,9 +346,6 @@ exit:
 //
 //*************************************************************************
 
-	.data
-str1:	.skip	21
-iPos:	.byte	0
 
 	.global String_charAt
 	.text
@@ -399,17 +380,17 @@ String_charAt:
 	b.eq	impossible
 	
 	mov	w0,w4
-	b	exit
+	b	exit4
 	
 impossible:
 	mov	x0,#0
-	b exit
+	b exit4
 	
-exit:
+exit4:
 	LDR LR,[SP],#16		//POP LR
 	ret
 
-	.end
+
 
 //************************************************************************
 //Program: String_startsWith_1.s
@@ -421,10 +402,6 @@ exit:
 //
 //*************************************************************************
 
-	.data
-str1:	.skip	21
-strPrefix:	.skip	21
-iPos:	.skip	21
 
 	.global String_startsWith_1
 	.text
@@ -460,9 +437,9 @@ String_startsWith_1:
 	ldrb	w4,[x1]
 	add	x1,x1,#1
 
-compareLoop1:
+compareLoop5:
 	cmp	x6,#0
-	b.eq	true1
+	b.eq	true5
 
 	ldrb	w3,[x0]
 	add	x0,x0,#1
@@ -471,25 +448,24 @@ compareLoop1:
 	add	x1,x1,#1
 
 	cmp	w3,w4
-	b.ne	false1
+	b.ne	false5
 	
 	sub	x6,x6,#1
 	
-	b	compareLoop1	
+	b	compareLoop5	
 	
-true1:
+true5:
 	mov	x0,#1
-	b	exit1	
+	b	exit3	
 
-false1:
+false5:
 	mov	x0,#0
-	b	exit1
+	b	exit5
 	
-exit1:
+exit5:
 	LDR LR,[SP],#16		//POP LR
 	ret
 
-	.end
 
 //************************************************************************
 //Program: String_startsWith_2.s
@@ -499,9 +475,6 @@ exit1:
 //
 //*************************************************************************
 
-	.data
-str1:	.skip	21
-strPrefix:	.skip	21
 
 
 	.global String_startsWith_2
@@ -532,7 +505,7 @@ String_startsWith_2:
 	ldrb	w3,[x0]
 	ldrb	w4,[x1]
 
-compareLoop1:
+compareLoop6:
 	cmp	x6,#0
 	b.eq	true1
 
@@ -547,21 +520,21 @@ compareLoop1:
 	
 	sub	x6,x6,#1
 	
-	b	compareLoop1	
+	b	compareLoop6	
 	
-true1:
+true6:
 	mov	x0,#1
 	b	exit1	
 
-false1:
+false6:
 	mov	x0,#0
 	b	exit1
 	
-exit1:
+exit6:
 	LDR LR,[SP],#16		//POP LR
 	ret
 
-	.end
+
 
 //************************************************************************
 //Program: String_endsWith.s
@@ -571,9 +544,6 @@ exit1:
 //
 //*************************************************************************
 
-	.data
-str1:	.skip	21
-strSuffix:	.skip	21
 
 
 	.global String_endsWith
@@ -584,58 +554,63 @@ String_endsWith:
 	STR	LR, [SP,#-16]!		//PUSH LR
 
 	//x0 holds string1
-	//x1 holds stringSuffix
+	//x1 holds stringPrefix
 
 
-	ldr	x2,=str1
-	STR	x0,[x2]
+	ldr	x3,=str1
+	STR	x0,[x3]
 
-	ldr	x3,=strSuffix
-	STR	x1,[x3]
+	ldr	x4,=strPrefix
+	STR	x1,[x4]
 
 	
-	ldr	x0,=str1
+	ldr	x0,=strPrefix
 	bl	String_length
-	mov	x2,x0
-	
-	ldr	x0,=strSuffix
-	bl	String_length
-	mov	x3,x0
-	
+	mov	x6,x0
 
 //continue
 	ldr	x0,=str1
-	ldr	x1,=strSuffix
-	add	x0,x0,x2
-	add	x1,x1,x3
+	ldr	x1,=strPrefix
 	
-compareLoop1:
-	cmp	x3,#0
+	ldrb	w3,[x0]
+	add	x0,x0,#1
+
+	ldrb	w4,[x1]
+	add	x1,x1,#1
+
+compareLoop7:
+	cmp	x6,#0
 	b.eq	true1
-	
-	ldrb	w4,[x0]
-	ldrb	w5,[x1]
-	
-	cmp	w4,w5
+
+	ldrb	w3,[x0]
+	add	x0,x0,#1
+
+	ldrb	w4,[x1]
+	add	x1,x1,#1
+
+	cmp	w3,w4
 	b.ne	false1
 	
-	sub	x0,x0,#1
-	sub	x1,x1,#1
-	sub	x3,x3,#1
+	sub	x6,x6,#1
 	
-	b compareLoop1
+	b	compareLoop1	
 	
-	
-true1:
+true7:
 	mov	x0,#1
 	b	exit1	
 
-false1:
+false7:
 	mov	x0,#0
 	b	exit1
 	
-exit1:
+exit7:
 	LDR LR,[SP],#16		//POP LR
 	ret
 
+	.data
+str1:	.skip	50
+str2:	.skip	50
+ptrStr:	.quad	0
+iPos:	.byte	0
+strPrefix:	.skip	21
 	.end
