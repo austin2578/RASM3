@@ -132,7 +132,7 @@ printTrue1:
 	
 printFalse1:
 	ldr	x0,=szFalse	//x0 points to
-	bl	putstring
+	bl	putstring	//prints string
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
 	b	test2
@@ -143,7 +143,7 @@ test2:
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
 	ldr	x0,=strEqIgno1	//x0 points to
-	bl	putstring
+	bl	putstring	//prints string
 	ldr	x0,=szStr1	//x0 points to
 	ldr	x1,=szStr3	//x0 points to
 	bl	String_equalsIgnoreCase
@@ -157,7 +157,7 @@ test2:
 printTrue2:
 
 	ldr	x0,=szTrue	//x0 points to
-	bl	putstring
+	bl	putstring	//prints string
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
 	b test3
@@ -165,7 +165,7 @@ printTrue2:
 printFalse2:
 
 	ldr	x0,=szFalse	//x0 points to
-	bl	putstring
+	bl	putstring	//prints string
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
 	b	test3
@@ -175,7 +175,7 @@ test3:
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
 	ldr	x0,=strEqIgno2	//x0 points to
-	bl	putstring
+	bl	putstring	//prints string
 	ldr	x0,=szStr1	//x0 points to
 	ldr	x1,=szStr2	//x0 points to
 	bl	String_equalsIgnoreCase
@@ -189,7 +189,7 @@ test3:
 printTrue3:
 
 	ldr	x0,=szTrue	//x0 points to
-	bl	putstring
+	bl	putstring	//prints string
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
 	b test4
@@ -197,7 +197,7 @@ printTrue3:
 printFalse3:
 
 	ldr	x0,=szFalse	//x0 points to
-	bl	putstring
+	bl	putstring	//prints string
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
 	b	test4
@@ -208,15 +208,15 @@ test4:
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
 	ldr	x0,=strCopy	//x0 points to
-	bl	putstring
+	bl	putstring	//prints string
 	ldr	x0,=strS1	//x0 points to
-	bl	putstring
+	bl	putstring	//prints string
 	ldr	x0,=szStr1	//x0 points to
-	bl	putstring
+	bl	putstring	//prints string
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
 	ldr	x0,=strS4	//x0 points to
-	bl	putstring
+	bl	putstring	//prints string
 	ldr	x0,=szStr1	//x0 points to
 	bl	String_copy
 	
@@ -224,7 +224,7 @@ test4:
 	str x0,[x1]
 	
 	ldr	x0,=szStr4	//x0 points to
-	bl	putstring
+	bl	putstring	//prints string
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
 		
@@ -233,7 +233,7 @@ test7:
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
 	ldr	x0,=strSub1	//x0 points to
-	bl	putstring
+	bl	putstring	//prints string
 	
 	ldr	x0,=szStr1	//x0 points to
 	ldr	x1,=iBegin	//x0 points to
@@ -244,7 +244,7 @@ test7:
 	str x0,[x1]
 	
 	ldr	x0,=szStr4	//x0 points to
-	bl	putstring
+	bl	putstring	//prints string
 	
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
@@ -253,7 +253,7 @@ test8:
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
 	ldr	x0,=strSub2	//x0 points to
-	bl	putstring
+	bl	putstring	//prints string
 	ldr	x0,=szStr1	//x0 points to
 	ldr	x1,=iBegin2	//x0 points to
 	bl	String_substring_2
@@ -262,7 +262,7 @@ test8:
 	str x0,[x1]
 	
 	ldr	x0,=szStr4	//x0 points to
-	bl	putstring
+	bl	putstring	//prints string
 
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
@@ -271,7 +271,7 @@ test9:
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
 	ldr	x0,=strChar	//x0 points to
-	bl	putstring
+	bl	putstring	//prints string
 	
 	ldr	x0,=szStr1	//x0 points to
 	ldr	x1,=iPosition	//x0 points to
@@ -281,7 +281,7 @@ test9:
 	bl	int64asc
 	
 	ldr	x0,=szTemp	//x0 points to
-	bl	putstring
+	bl	putstring	//prints string
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
 
@@ -290,7 +290,7 @@ test10:
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
 	ldr	x0,=strStarts1	//x0 points to
-	bl	putstring
+	bl	putstring	//prints string
 	ldr	x0,=szStr1	//x0 points to
 	ldr	x1,=szPrefix	//x0 points to
 	ldr	x2,=iPosition	//x0 points to
@@ -305,14 +305,14 @@ test10:
 
 printTrue10:
 	ldr	x0,=szTrue	//x0 points to
-	bl	putstring
+	bl	putstring	//prints string
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
 	b 	test11
 	
 printFalse10:
 	ldr	x0,=szFalse	//x0 points to
-	bl	putstring
+	bl	putstring	//prints string
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
 	b	test11
@@ -339,14 +339,14 @@ test11:
 
 printTrue11:
 	ldr	x0,=szTrue	//x0 points to
-	bl	putstring
+	bl	putstring	//prints string
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
 	b 	test12
 	
 printFalse11:
 	ldr	x0,=szFalse	//x0 points to
-	bl	putstring
+	bl	putstring	//prints string
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
 	b	test12
@@ -356,7 +356,7 @@ test12:
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
 	ldr	x0,=strEnds	//x0 points to
-	bl	putstring
+	bl	putstring	//prints string
 	
 	ldr	x0,=szStr1	//x0 points to
 	ldr	x1,=szSuffix	//x0 points to
@@ -370,14 +370,14 @@ test12:
 	
 printTrue12:	
 	ldr	x0,=szTrue	//x0 points to
-	bl	putstring
+	bl	putstring	//prints string
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
 	b 	end
 	
 printFalse12:
 	ldr	x0,=szFalse	//x0 points to
-	bl	putstring
+	bl	putstring	//prints string
 	ldr	x0,=chLF	//x0 points to chLF
 	bl	putch		//prints carriage return
 	b	end
